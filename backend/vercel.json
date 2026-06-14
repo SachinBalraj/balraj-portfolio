@@ -1,0 +1,9 @@
+{
+  "experimentalServices": {
+    "web": {
+      "type": "web",
+      "entrypoint": "server.js",
+      "routePrefix": "/"
+    }
+  }
+}
