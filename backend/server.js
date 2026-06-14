@@ -79,9 +79,12 @@ const cspImgSrc = [
   ...(process.env.CSP_IMG_SRC ? process.env.CSP_IMG_SRC.split(',').map(s => s.trim()) : []),
 ];
 
+// Use backend port from environment to avoid hardcoded localhost:5000
+const backendHost = `http://localhost:${process.env.PORT || 5000}`;
+
 if (process.env.NODE_ENV !== 'production') {
-  cspConnectSrc.push('http://localhost:5000', 'http://localhost:5173', ...vitePorts);
-  cspImgSrc.push('http://localhost:5000');
+  cspConnectSrc.push(backendHost, 'http://localhost:5173', ...vitePorts);
+  cspImgSrc.push(backendHost);
 }
 
 app.use(helmet({
@@ -210,6 +213,17 @@ app.use('/api/availability', availabilityRoutes);
 app.use('/api/admin/availability', adminAvailabilityRoutes);
 app.use('/api/founder', founderRoutes);
 app.use('/api/admin/founder', adminFounderRoutes);
+
+// Serve frontend build when available or when explicitly enabled
+const frontendDist = path.resolve(__dirname, '../businessman-portfolio/dist');
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res) => {
+    // If request starts with /api or /uploads let API/static handlers above handle it
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return res.status(404).end();
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
 
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'Backend running successfully' });
