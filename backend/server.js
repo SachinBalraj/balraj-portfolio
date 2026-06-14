@@ -10,6 +10,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const Admin = require('./models/Admin');
 const errorHandler = require('./middleware/errorMiddleware');
 const contactRoutes = require('./routes/contactRoutes');
 const consultationRoutes = require('./routes/consultationRoutes');
@@ -60,7 +61,30 @@ requiredEnvVars.forEach((envVar) => {
   }
 });
 
+console.log('🔧 Backend starting up...');
+console.log('   NODE_ENV:', process.env.NODE_ENV || 'not set');
+console.log('   PORT:', process.env.PORT || 'not set (will default to 5000)');
+console.log('   MONGO_URI:', process.env.MONGO_URI ? '✅ set' : '❌ MISSING');
+console.log('   JWT_SECRET:', process.env.JWT_SECRET ? '✅ set' : '❌ MISSING');
+console.log('   CLIENT_URL:', process.env.CLIENT_URL || 'not set');
+console.log('   CSRF_SECRET:', process.env.CSRF_SECRET ? '✅ set' : 'not set');
+
 connectDB();
+
+mongoose.connection.on('connected', async () => {
+  try {
+    const email = 'admin@balraj.com';
+    const existing = await Admin.findOne({ email });
+    if (!existing) {
+      await Admin.create({ name: 'Balraj', email, password: 'admin123' });
+      console.log('✅ Default admin created: admin@balraj.com / admin123');
+    } else {
+      console.log('✅ Admin user exists:', email);
+    }
+  } catch (err) {
+    console.error('Auto-seed admin error:', err.message);
+  }
+});
 
 const app = express();
 

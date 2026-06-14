@@ -62,5 +62,5 @@ git push -u origin main
 In your React app's `.env` (or Render env vars):
 
 ```env
-VITE_API_URL=https://balraj-portfolio-api.onrender.com/api
+VITE_API_URL=https://balraj-portfolio-api.onrender.com
 ```

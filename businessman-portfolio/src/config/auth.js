@@ -21,6 +21,7 @@ const parseJSON = async (response) => {
 export const loginAdmin = async (email, password) => {
   const url = `${API_BASE_URL}/api/admin/login`;
   console.log(`${logPrefix} loginAdmin: POST`, url);
+  console.log(`${logPrefix} loginAdmin: payload`, { email });
 
   let response;
   try {
