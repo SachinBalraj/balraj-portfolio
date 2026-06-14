@@ -1,3 +1,5 @@
 node_modules/
 notebook-renderer-react-sample/
 dist/
+.vercel
+.env*

@@ -4,5 +4,8 @@
   ],
   "installCommand": "npm install && cd businessman-portfolio && npm install --include=dev",
   "buildCommand": "npm run build",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "cleanUrls": true
 }
