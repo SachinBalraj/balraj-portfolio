@@ -2,7 +2,7 @@ services:
   - type: web
     name: balraj-portfolio-api
     runtime: node
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/SachinBalraj/balraj-portfolio
     branch: main
     rootDir: backend
     buildCommand: npm install
@@ -20,7 +20,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: CLIENT_URL
-        sync: false
+        value: "https://balraj-portfolio-iota.vercel.app"
       - key: CSRF_SECRET
         sync: false
       - key: CSP_CONNECT_SRC
