@@ -214,16 +214,7 @@ app.use('/api/admin/availability', adminAvailabilityRoutes);
 app.use('/api/founder', founderRoutes);
 app.use('/api/admin/founder', adminFounderRoutes);
 
-// Serve frontend build when available or when explicitly enabled
-const frontendDist = path.resolve(__dirname, '../businessman-portfolio/dist');
-if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
-  app.use(express.static(frontendDist));
-  app.get('*', (req, res) => {
-    // If request starts with /api or /uploads let API/static handlers above handle it
-    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return res.status(404).end();
-    res.sendFile(path.join(frontendDist, 'index.html'));
-  });
-}
+// NOTE: frontend `dist` serving is moved to the end of the file (after API routes)
 
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'Backend running successfully' });
@@ -244,6 +235,17 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use(errorHandler);
+
+// Serve frontend build when available or when explicitly enabled
+const frontendDist = path.resolve(__dirname, '../businessman-portfolio/dist');
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res) => {
+    // If request starts with /api or /uploads let API/static handlers above handle it
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return res.status(404).end();
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 

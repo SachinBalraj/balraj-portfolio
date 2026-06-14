@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "cd businessman-portfolio && npm run dev",
-    "build": "cd businessman-portfolio && npm run build",
+    "build": "cd businessman-portfolio && npm ci --include=dev && npm run build",
     "preview": "cd businessman-portfolio && npm run preview",
     "postinstall": "cd businessman-portfolio && npm install --include=dev",
     "start": "node backend/server.js",
