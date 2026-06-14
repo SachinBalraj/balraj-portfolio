@@ -3,7 +3,7 @@
     "dev": "cd businessman-portfolio && npm run dev",
     "build": "cd businessman-portfolio && npm run build",
     "preview": "cd businessman-portfolio && npm run preview",
-    "postinstall": "cd businessman-portfolio && npm install",
+    "postinstall": "cd businessman-portfolio && npm install --include=dev",
     "start": "node backend/server.js",
     "build-and-start": "cd businessman-portfolio && npm run build && NODE_ENV=production node ../backend/server.js",
     "serve-frontend-dev": "SERVE_FRONTEND=true node backend/server.js"
