@@ -17,7 +17,7 @@ import {
 import AdminLayout, { fadeInUp, Skeleton, Toast } from '@/components/admin/AdminLayout';
 import { getFounder, updateFounder } from '@/config/admin';
 
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 const InputField = ({ label, icon: Icon, value, onChange, placeholder, type = 'text', multiline }) => {
   const id = label.toLowerCase().replace(/\s+/g, '-');

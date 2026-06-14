@@ -1,5 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
+if (typeof window !== 'undefined' && !import.meta.env.VITE_API_URL) {
+  console.warn(
+    '%c[Admin] VITE_API_URL is not set.%c API calls will use relative URLs. ' +
+    'Set VITE_API_URL in your Vercel project environment variables for production.',
+    'color: #f59e0b; font-weight: bold',
+    'color: inherit'
+  );
+}
+
 const authHeaders = (token) => ({
   'Content-Type': 'application/json',
   Authorization: `Bearer ${token}`,

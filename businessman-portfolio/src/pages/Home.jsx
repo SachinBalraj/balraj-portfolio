@@ -373,7 +373,7 @@ const Home = () => {
                       <div className="w-72 h-72 rounded-full bg-white/[0.03] animate-pulse" />
                     ) : founder?.profilePhoto && !heroImgError ? (
                       <img
-                        src={`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}${founder.profilePhoto}`}
+                        src={`${import.meta.env.VITE_API_URL || ''}${founder.profilePhoto}`}
                         alt={`${founder?.name || 'Balraj'} - Founder & CEO`}
                         className="w-full h-auto object-contain scale-[0.82] translate-y-4 drop-shadow-2xl"
                         onError={() => setHeroImgError(true)}

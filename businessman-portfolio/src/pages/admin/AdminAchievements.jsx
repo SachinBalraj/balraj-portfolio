@@ -22,7 +22,7 @@ import {
   reorderAchievements,
 } from '@/config/admin';
 
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const ACCEPTED_EXTENSIONS = '.jpg,.jpeg,.png,.webp';
