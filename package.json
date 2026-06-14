@@ -2,7 +2,10 @@
   "scripts": {
     "dev": "cd businessman-portfolio && npm run dev",
     "build": "cd businessman-portfolio && npm run build",
-    "preview": "cd businessman-portfolio && npm run preview"
+    "preview": "cd businessman-portfolio && npm run preview",
+    "start": "node backend/server.js",
+    "build-and-start": "cd businessman-portfolio && npm run build && NODE_ENV=production node ../backend/server.js",
+    "serve-frontend-dev": "SERVE_FRONTEND=true node backend/server.js"
   },
   "dependencies": {
     "mongodb": "^7.2.0",

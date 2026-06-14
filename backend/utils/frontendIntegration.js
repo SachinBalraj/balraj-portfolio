@@ -14,7 +14,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -116,7 +116,7 @@ const ConsultationForm = () => {
 
   5. Environment variable (.env in React project root):
 
-     VITE_API_URL=http://localhost:5000/api
+    VITE_API_URL=http://localhost:5001/api
 
   6. Add loading state to your Submit button:
 
