@@ -2,6 +2,8 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 const logPrefix = '[Auth]';
 
+console.log(`${logPrefix} Using API_BASE_URL:`, API_BASE_URL || '(same origin — relative URLs)');
+
 const parseJSON = async (response) => {
   try {
     return await response.json();

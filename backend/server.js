@@ -163,7 +163,7 @@ const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(',').map(s => s.trim())
   : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173', 'http://localhost:5174'];
 
-const wildcardDomains = ['.loca.lt', '.trycloudflare.com'];
+const wildcardDomains = ['.loca.lt', '.trycloudflare.com', '.vercel.app'];
 
 const originMatches = (origin) => {
   if (allowedOrigins.includes(origin)) return true;
