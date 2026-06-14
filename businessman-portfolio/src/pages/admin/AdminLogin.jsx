@@ -30,6 +30,7 @@ const AdminLogin = () => {
       login(res.token, res.data);
       navigate('/admin/dashboard', { replace: true });
     } catch (err) {
+      console.error('[AdminLogin] Login error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
