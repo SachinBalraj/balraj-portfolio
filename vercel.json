@@ -1,11 +1,8 @@
 {
-  "builds": [
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "businessman-portfolio/dist" } }
-  ],
+  "buildCommand": "cd businessman-portfolio && npm ci --include=dev && npm run build",
+  "outputDirectory": "businessman-portfolio/dist",
   "installCommand": "npm install && cd businessman-portfolio && npm install --include=dev",
-  "buildCommand": "npm run build",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "cleanUrls": true
+  ]
 }

@@ -67,9 +67,22 @@ export const AuthProvider = ({ children }) => {
 
     getMe(token)
       .then((res) => setAdmin(res.data))
-      .catch(() => {
-        localStorage.removeItem(TOKEN_KEY);
-        setAdmin(null);
+      .catch((err) => {
+        // Network errors (backend unavailable) should NOT clear the token.
+        // Only clear on explicit auth rejection (401/403).
+        const isNetworkError = err instanceof TypeError || err.message === 'Failed to fetch' || err.message?.includes('NetworkError');
+        if (isNetworkError) {
+          const decoded = parseJwt(token);
+          if (decoded) {
+            setAdmin({ name: 'Admin', email: decoded.email || 'admin@balraj.com' });
+          } else {
+            localStorage.removeItem(TOKEN_KEY);
+            setAdmin(null);
+          }
+        } else {
+          localStorage.removeItem(TOKEN_KEY);
+          setAdmin(null);
+        }
       })
       .finally(() => setLoading(false));
   }, []);
