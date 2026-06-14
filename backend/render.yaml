@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: balraj-portfolio-api
+    runtime: node
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    branch: main
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false
+      - key: CSRF_SECRET
+        sync: false
+      - key: CSP_CONNECT_SRC
+        sync: false
+      - key: CSP_IMG_SRC
+        sync: false

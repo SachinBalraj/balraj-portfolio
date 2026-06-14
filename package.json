@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "cd businessman-portfolio && npm run dev",
+    "build": "cd businessman-portfolio && npm run build",
+    "preview": "cd businessman-portfolio && npm run preview"
+  },
+  "dependencies": {
+    "mongodb": "^7.2.0",
+    "recharts": "^3.8.1"
+  }
+}

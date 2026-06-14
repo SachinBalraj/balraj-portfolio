@@ -1,0 +1,6 @@
+import{c as s,R as t,j as a,d as n}from"./index-CXEHxlg0.js";/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const c=s("Send",[["path",{d:"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",key:"1ffxy3"}],["path",{d:"m21.854 2.147-10.94 10.939",key:"12cjpa"}]]),l=t.forwardRef(({className:e,type:r,...o},d)=>a.jsx("input",{type:r,className:n("flex h-12 w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300",e),ref:d,...o}));l.displayName="Input";const u=t.forwardRef(({className:e,...r},o)=>a.jsx("textarea",{className:n("flex min-h-[120px] w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 resize-none",e),ref:o,...r}));u.displayName="Textarea";export{l as I,c as S,u as T};
