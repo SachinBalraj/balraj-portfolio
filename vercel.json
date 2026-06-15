@@ -3,6 +3,8 @@
   "outputDirectory": "businessman-portfolio/dist",
   "installCommand": "npm install && cd businessman-portfolio && npm install --include=dev",
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/uploads/(.*)", "destination": "/api/index.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
