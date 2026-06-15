@@ -3,7 +3,10 @@ const path = require('path');
 const fs = require('fs');
 
 const createUpload = (subfolder = 'uploads') => {
-  const dir = path.join(__dirname, '..', 'uploads', subfolder);
+  const isVercel = !!process.env.VERCEL;
+  const dir = isVercel
+    ? path.join('/tmp', 'uploads', subfolder)
+    : path.join(__dirname, '..', 'uploads', subfolder);
   fs.mkdirSync(dir, { recursive: true });
 
   const storage = multer.diskStorage({

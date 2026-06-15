@@ -90,6 +90,9 @@ mongoose.connection.on('connected', async () => {
 
 const app = express();
 
+// Trust proxy for reverse proxies (like Vercel and Render) to get the correct client IP for rate limiting
+app.set('trust proxy', 1);
+
 app.disable('x-powered-by');
 
 const vitePorts = Array.from({ length: 10 }, (_, i) => `ws://localhost:${5173 + i}`);
@@ -230,7 +233,10 @@ app.use(mongoSanitize());
 
 app.use(xss());
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const uploadDir = process.env.VERCEL
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadDir));
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/consultation', consultationRoutes);
