@@ -273,26 +273,30 @@ if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'tru
 
 const PORT = process.env.PORT || 5000;
 
-server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
-});
+if (!process.env.VERCEL) {
+  server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  });
 
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received. Shutting down gracefully...');
-  server.close(() => {
-    mongoose.connection.close(false).then(() => {
-      console.log('Server shut down complete');
-      process.exit(0);
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received. Shutting down gracefully...');
+    server.close(() => {
+      mongoose.connection.close(false).then(() => {
+        console.log('Server shut down complete');
+        process.exit(0);
+      });
     });
   });
-});
 
-process.on('SIGINT', () => {
-  console.log('SIGINT received. Shutting down gracefully...');
-  server.close(() => {
-    mongoose.connection.close(false).then(() => {
-      console.log('Server shut down complete');
-      process.exit(0);
+  process.on('SIGINT', () => {
+    console.log('SIGINT received. Shutting down gracefully...');
+    server.close(() => {
+      mongoose.connection.close(false).then(() => {
+        console.log('Server shut down complete');
+        process.exit(0);
+      });
     });
   });
-});
+}
+
+module.exports = app;
