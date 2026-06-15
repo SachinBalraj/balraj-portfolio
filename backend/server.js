@@ -107,8 +107,14 @@ const cspImgSrc = [
 const backendHost = `http://localhost:${process.env.PORT || 5000}`;
 
 if (process.env.NODE_ENV !== 'production') {
-  cspConnectSrc.push(backendHost, 'http://localhost:5173', ...vitePorts);
-  cspImgSrc.push(backendHost);
+  cspConnectSrc.push(
+    backendHost,
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5001',
+    ...vitePorts
+  );
+  cspImgSrc.push(backendHost, 'http://127.0.0.1:5001');
 }
 
 app.use(helmet({
@@ -185,7 +191,16 @@ app.use('/api/consultation', consultationLimiter);
 
 const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(',').map(s => s.trim())
-  : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4173', 'http://localhost:5174'];
+  : [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost:4173',
+      'http://localhost:5174',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:4173',
+      'http://127.0.0.1:5174'
+    ];
 
 const wildcardDomains = ['.loca.lt', '.trycloudflare.com', '.vercel.app'];
 
