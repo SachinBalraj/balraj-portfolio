@@ -11,6 +11,7 @@ const xss = require('xss-clean');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const Admin = require('./models/Admin');
+const Upload = require('./models/Upload');
 const errorHandler = require('./middleware/errorMiddleware');
 const contactRoutes = require('./routes/contactRoutes');
 const consultationRoutes = require('./routes/consultationRoutes');
@@ -232,6 +233,19 @@ app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanitize());
 
 app.use(xss());
+
+app.get('/uploads/:type/:filename', async (req, res, next) => {
+  try {
+    const file = await Upload.findOne({ filename: req.params.filename });
+    if (file) {
+      res.set('Content-Type', file.contentType);
+      return res.send(file.data);
+    }
+  } catch (err) {
+    console.error('Error fetching file from DB:', err.message);
+  }
+  next();
+});
 
 const uploadDir = process.env.VERCEL
   ? path.join('/tmp', 'uploads')

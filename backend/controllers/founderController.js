@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Founder = require('../models/Founder');
 const fs = require('fs');
 const path = require('path');
+const { saveFileToDb, deleteFileFromDb } = require('../utils/uploadHelper');
 
 const FALLBACK_FOUNDER = {
   name: 'Balraj',
@@ -72,23 +73,26 @@ const updateFounder = async (req, res, next) => {
     if (req.files) {
       if (req.files.profilePhoto) {
         if (founder.profilePhoto) {
+          await deleteFileFromDb(founder.profilePhoto);
           const oldPath = path.join(__dirname, '..', founder.profilePhoto);
           try { fs.unlinkSync(oldPath); } catch {}
         }
-        founder.profilePhoto = `/uploads/founder/${req.files.profilePhoto[0].filename}`;
+        founder.profilePhoto = await saveFileToDb(req.files.profilePhoto[0], 'founder');
       }
 
       if (req.files.coverImage) {
         if (founder.coverImage) {
+          await deleteFileFromDb(founder.coverImage);
           const oldPath = path.join(__dirname, '..', founder.coverImage);
           try { fs.unlinkSync(oldPath); } catch {}
         }
-        founder.coverImage = `/uploads/founder/${req.files.coverImage[0].filename}`;
+        founder.coverImage = await saveFileToDb(req.files.coverImage[0], 'founder');
       }
     }
 
     if (removeProfilePhoto === 'true' || removeProfilePhoto === true) {
       if (founder.profilePhoto) {
+        await deleteFileFromDb(founder.profilePhoto);
         const oldPath = path.join(__dirname, '..', founder.profilePhoto);
         try { fs.unlinkSync(oldPath); } catch {}
       }
@@ -97,6 +101,7 @@ const updateFounder = async (req, res, next) => {
 
     if (removeCoverImage === 'true' || removeCoverImage === true) {
       if (founder.coverImage) {
+        await deleteFileFromDb(founder.coverImage);
         const oldPath = path.join(__dirname, '..', founder.coverImage);
         try { fs.unlinkSync(oldPath); } catch {}
       }
