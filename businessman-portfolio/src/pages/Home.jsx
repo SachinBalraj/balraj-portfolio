@@ -247,7 +247,35 @@ const Home = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Mobile: Founder Photo at top */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="lg:hidden flex justify-center"
+            >
+              <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]">
+                <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[60px]" />
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-400/20 to-emerald-500/10 border-2 border-green-500/30 overflow-hidden shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]">
+                  {founderLoading ? (
+                    <div className="w-full h-full bg-white/[0.03] animate-pulse" />
+                  ) : founder?.profilePhoto && !heroImgError ? (
+                    <img
+                      src={`${import.meta.env.VITE_API_URL || ''}${founder.profilePhoto}`}
+                      alt={`${founder?.name || 'Balraj'} - Founder & CEO`}
+                      className="w-full h-full object-cover"
+                      onError={() => setHeroImgError(true)}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-white/[0.03]">
+                      <User size={48} className="text-zinc-600" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
