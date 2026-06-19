@@ -1,6 +1,4 @@
 const Achievement = require('../models/Achievement');
-const fs = require('fs');
-const path = require('path');
 const { saveFileToDb, deleteFileFromDb } = require('../utils/uploadHelper');
 
 const createAchievement = async (req, res, next) => {
@@ -58,8 +56,6 @@ const updateAchievement = async (req, res, next) => {
     if (req.file) {
       if (achievement.image) {
         await deleteFileFromDb(achievement.image);
-        const oldPath = path.join(__dirname, '..', achievement.image);
-        try { fs.unlinkSync(oldPath); } catch {}
       }
       achievement.image = await saveFileToDb(req.file, 'achievements');
     }
@@ -67,8 +63,6 @@ const updateAchievement = async (req, res, next) => {
     if (removeImage === 'true' || removeImage === true) {
       if (achievement.image) {
         await deleteFileFromDb(achievement.image);
-        const oldPath = path.join(__dirname, '..', achievement.image);
-        try { fs.unlinkSync(oldPath); } catch {}
       }
       achievement.image = '';
     }
@@ -96,8 +90,6 @@ const deleteAchievement = async (req, res, next) => {
 
     if (achievement.image) {
       await deleteFileFromDb(achievement.image);
-      const filePath = path.join(__dirname, '..', achievement.image);
-      try { fs.unlinkSync(filePath); } catch {}
     }
 
     await achievement.deleteOne();

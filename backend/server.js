@@ -239,18 +239,14 @@ app.get('/uploads/:type/:filename', async (req, res, next) => {
     const file = await Upload.findOne({ filename: req.params.filename });
     if (file) {
       res.set('Content-Type', file.contentType);
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
       return res.send(file.data);
     }
   } catch (err) {
     console.error('Error fetching file from DB:', err.message);
   }
-  next();
+  res.status(404).json({ success: false, message: 'File not found' });
 });
-
-const uploadDir = process.env.VERCEL
-  ? path.join('/tmp', 'uploads')
-  : path.join(__dirname, 'uploads');
-app.use('/uploads', express.static(uploadDir));
 
 app.use('/api/contact', contactRoutes);
 app.use('/api/consultation', consultationRoutes);
