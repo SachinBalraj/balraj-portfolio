@@ -127,7 +127,7 @@ const About = () => {
   return (
     <div>
       {/* ===== SECTION 1: BELDEX OVERVIEW HERO ===== */}
-      <section className="relative pt-36 pb-20 overflow-hidden bg-black">
+      <section className="relative pt-8 pb-20 overflow-hidden bg-black">
         <div className="absolute inset-0">
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-green-500/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />

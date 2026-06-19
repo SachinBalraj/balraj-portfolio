@@ -98,7 +98,7 @@ const Services = () => {
   return (
     <div>
       {/* Investment Strategy Plans */}
-      <section className="relative section-padding pt-24 md:pt-28 lg:pt-32 overflow-hidden bg-black">
+      <section className="relative section-padding overflow-hidden bg-black">
         <div className="absolute inset-0">
           <div className="absolute top-1/3 left-0 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />
           <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />

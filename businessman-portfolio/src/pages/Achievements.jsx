@@ -31,7 +31,7 @@ const Achievements = () => {
   return (
     <div>
       {/* Awards & Recognition */}
-      <section className="relative section-padding pt-24 md:pt-28 lg:pt-32 overflow-hidden bg-black">
+      <section className="relative section-padding overflow-hidden bg-black">
         <div className="absolute inset-0">
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-green-500/[0.02] rounded-full blur-[120px]" />
         </div>
