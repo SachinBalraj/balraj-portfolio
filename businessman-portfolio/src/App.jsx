@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from '@/context/AuthContext';
 import Layout from '@/components/Layout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
@@ -37,6 +38,7 @@ const App = () => {
       <ErrorBoundary>
       <AuthProvider>
         <Suspense fallback={<PageLoader />}>
+          <Analytics />
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
