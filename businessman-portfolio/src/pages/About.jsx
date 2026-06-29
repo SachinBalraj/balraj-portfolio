@@ -6,7 +6,6 @@ import {
   Minus,
 } from 'lucide-react';
 import ContactInfo from '@/components/ContactInfo';
-import AboutHero from '@/components/AboutHero';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -99,8 +98,6 @@ const About = () => {
 
   return (
     <div>
-      <AboutHero />
-
       {/* ===== TEAM STRUCTURE ===== */}
       <section id="about-content" className="relative section-padding overflow-hidden bg-black">
         <div className="absolute inset-0">

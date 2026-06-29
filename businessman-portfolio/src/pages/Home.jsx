@@ -6,146 +6,13 @@ import {
   Play,
   Shield,
   TrendingUp,
-  ShieldCheck,
-  Globe,
-  BarChart3,
-  Wallet,
-  Target,
-  Lightbulb,
-  PieChart,
-  Coins,
-  Cpu,
   ChevronRight,
-  Bitcoin,
   User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import CryptoCircuitBackground from '@/components/CryptoCircuitBackground';
 import { getHomepageStats } from '@/config/admin';
 import { getFounder } from '@/config/api';
-
-const expertiseData = [
-  {
-    icon: Bitcoin,
-    title: 'Crypto Investment Advisory',
-    description: 'Strategic guidance for building and managing high-performance cryptocurrency portfolios.',
-    color: 'from-green-400 to-emerald-600',
-  },
-  {
-    icon: Cpu,
-    title: 'Blockchain Strategy',
-    description: 'Enterprise-grade blockchain implementation roadmaps for Web3 transformation.',
-    color: 'from-emerald-400 to-green-600',
-  },
-  {
-    icon: Coins,
-    title: 'DeFi Opportunities',
-    description: 'Decentralized finance yield optimization and liquidity provision strategies.',
-    color: 'from-green-400 to-teal-600',
-  },
-  {
-    icon: BarChart3,
-    title: 'Market Intelligence',
-    description: 'Real-time crypto market analysis with AI-driven predictive insights.',
-    color: 'from-teal-400 to-green-600',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Risk Management',
-    description: 'Institutional-grade risk frameworks for digital asset protection.',
-    color: 'from-green-400 to-emerald-600',
-  },
-  {
-    icon: Globe,
-    title: 'Institutional Crypto Solutions',
-    description: 'Tailored cryptocurrency solutions for funds, family offices, and institutions.',
-    color: 'from-emerald-400 to-green-600',
-  },
-];
-
-const servicesData = [
-  {
-    icon: Wallet,
-    title: 'Crypto Advisory',
-    description: 'Personalized guidance on cryptocurrency investments, portfolio allocation, and market entry strategies for optimal returns.',
-    features: ['Portfolio Assessment', 'Market Analysis', 'Investment Planning'],
-  },
-  {
-    icon: PieChart,
-    title: 'Portfolio Management',
-    description: 'Active management of your digital asset portfolio with rebalancing and risk-adjusted growth strategies.',
-    features: ['Asset Allocation', 'Rebalancing', 'Performance Tracking'],
-  },
-  {
-    icon: Coins,
-    title: 'DeFi Consulting',
-    description: 'Navigate the decentralized finance landscape with expert guidance on yield farming, staking, and liquidity pools.',
-    features: ['Yield Optimization', 'Protocol Analysis', 'Smart Contract Review'],
-  },
-  {
-    icon: Cpu,
-    title: 'Blockchain Consulting',
-    description: 'End-to-end blockchain consulting from concept to deployment for businesses seeking Web3 integration.',
-    features: ['Tech Stack Selection', 'Architecture Design', 'Implementation'],
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Asset Protection',
-    description: 'Enterprise-grade security solutions for safeguarding digital assets against threats and vulnerabilities.',
-    features: ['Cold Storage Setup', 'Multi-Sig Wallets', 'Security Audits'],
-  },
-  {
-    icon: TrendingUp,
-    title: 'Wealth Creation',
-    description: 'Long-term wealth creation strategies combining traditional finance principles with crypto market opportunities.',
-    features: ['Wealth Planning', 'Tax Optimization', 'Generational Wealth'],
-  },
-];
-
-const whyChooseData = [
-  {
-    icon: Shield,
-    title: 'Security First',
-    description: 'Enterprise-grade security practices and asset protection strategies.',
-    stat: '100%',
-    statLabel: 'Assets Secured',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Proven Growth',
-    description: 'Consistent performance through strategic crypto investment planning.',
-    stat: '100%',
-    statLabel: 'Growth Focused',
-  },
-  {
-    icon: Cpu,
-    title: 'Blockchain Expertise',
-    description: 'Deep understanding of blockchain ecosystems, tokenomics, and Web3 technologies.',
-    stat: '50+',
-    statLabel: 'Blockchain Projects',
-  },
-  {
-    icon: Target,
-    title: 'Risk Management',
-    description: 'Comprehensive portfolio protection and volatility management strategies.',
-    stat: '98%',
-    statLabel: 'Client Confidence',
-  },
-  {
-    icon: Globe,
-    title: 'Transparency',
-    description: 'Clear communication, detailed reporting, and ethical investment guidance.',
-    stat: '100%',
-    statLabel: 'Transparency',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Innovation',
-    description: 'Forward-thinking strategies aligned with emerging crypto opportunities.',
-    stat: '6+',
-    statLabel: 'Years Experience',
-  },
-];
 
 const staggerContainer = {
   hidden: {},
@@ -181,40 +48,7 @@ const SectionHeading = ({ children }) => (
   </motion.h2>
 );
 
-const SectionDescription = ({ children }) => (
-  <motion.p variants={fadeInUp} className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-    {children}
-  </motion.p>
-);
 
-const GlassCard = ({ children, className = '' }) => (
-  <div className={`glass rounded-2xl border border-white/[0.03] hover:border-green-500/20 transition-all duration-500 ${className}`}>
-    {children}
-  </div>
-);
-
-const GradientIcon = ({ icon: Icon, color = 'from-green-400 to-green-600', size = 24 }) => (
-  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} p-2.5 shadow-lg`}>
-    <Icon size={size} className="text-background" />
-  </div>
-);
-
-const formatPrice = (price) => {
-  if (!price && price !== 0) return '$0.00';
-  if (price < 0.001) return '$' + price.toFixed(6);
-  if (price < 1) return '$' + price.toFixed(4);
-  if (price < 1000) return '$' + price.toFixed(2);
-  return '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-};
-
-const formatAbbreviated = (num) => {
-  if (!num && num !== 0) return '$0';
-  if (num >= 1e12) return '$' + (num / 1e12).toFixed(2) + 'T';
-  if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
-  if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
-  if (num >= 1e3) return '$' + (num / 1e3).toFixed(2) + 'K';
-  return '$' + num.toFixed(2);
-};
 
 const Home = () => {
   const [stats, setStats] = useState(null);
@@ -247,7 +81,7 @@ const Home = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6">
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20">
             {/* Mobile: Founder Photo at top */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -255,9 +89,9 @@ const Home = () => {
               transition={{ duration: 0.6 }}
               className="lg:hidden flex justify-center"
             >
-              <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]">
-                <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[60px]" />
-                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-400/20 to-emerald-500/10 border-2 border-green-500/30 overflow-hidden shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]">
+              <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px]">
+                <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[40px] sm:blur-[60px]" />
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-400/20 to-emerald-500/10 border-[3px] border-green-500/30 overflow-hidden shadow-[0_0_25px_-3px_rgba(34,197,94,0.3)] sm:shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]">
                   {founderLoading ? (
                     <div className="w-full h-full bg-white/[0.03] animate-pulse" />
                   ) : founder?.profilePhoto && !heroImgError ? (
@@ -280,12 +114,13 @@ const Home = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="text-center lg:text-left"
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-8"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-6 sm:mb-8"
               >
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-green-400 text-sm font-medium">Available for Consulting</span>
@@ -316,7 +151,7 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl"
+                className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0"
               >
                 {founder?.shortDescription || 'Guiding investors through the world of cryptocurrency with strategic insights, blockchain expertise, and proven investment approaches designed for sustainable growth and long-term financial success.'}
               </motion.p>
@@ -552,123 +387,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== EXPERTISE BENTO GRID ===== */}
-      <section className="relative pt-8 md:pt-12 pb-10 md:pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/3 left-0 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center mb-10"
-          >
-            <SectionBadge>Expertise In</SectionBadge>
-            <SectionHeading>
-              Digital{' '}
-              <span className="text-gradient">Asset Management</span>
-            </SectionHeading>
-            <SectionDescription>
-              Strategic Cryptocurrency Advisory & Blockchain Insights
-            </SectionDescription>
-          </motion.div>
-
-          <div className="relative overflow-hidden py-6 sm:py-8">
-            <div
-              className="overflow-hidden"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-              }}
-            >
-              <div className="flex w-max gap-6 sm:gap-8 lg:gap-10 animate-marquee hover:[animation-play-state:paused] will-change-transform">
-                {[...Array(2)].map((_, copyIdx) => (
-                  <div key={copyIdx} className="flex items-center gap-6 sm:gap-8 lg:gap-10 shrink-0">
-                    {[
-                      'Crypto Investment Advisory',
-                      'Blockchain Strategy',
-                      'DeFi Opportunities',
-                      'Market Intelligence',
-                      'Risk Management',
-                      'Institutional Crypto Solutions',
-                    ].map((item, i) => (
-                      <React.Fragment key={i}>
-                        <span className="text-base sm:text-lg lg:text-xl xl:text-2xl font-semibold text-[#22C55E] whitespace-nowrap tracking-tight transition-colors duration-300 hover:text-green-300">
-                          {item}
-                        </span>
-                        <span className="text-base sm:text-lg lg:text-xl xl:text-2xl text-green-500/30 font-light select-none">
-                          ◇
-                        </span>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ===== WHY CHOOSE US ===== */}
-      <section className="relative section-padding overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/3 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-[120px]" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center mb-10"
-          >
-            <SectionBadge>Why Choose Us</SectionBadge>
-            <SectionHeading>
-              Built on{' '}
-              <span className="text-gradient">Trust & Excellence</span>
-            </SectionHeading>
-            <SectionDescription>
-              What sets us apart in the world of crypto investment advisory and blockchain strategy.
-            </SectionDescription>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            variants={staggerContainer}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {whyChooseData.map((item, i) => (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                className="group glass rounded-2xl p-8 border border-white/[0.03] hover:border-green-500/20 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(34,197,94,0.1)]"
-              >
-                <div className="flex items-start justify-between mb-5">
-                  <GradientIcon icon={item.icon} />
-                  <div className="text-right">
-                    <div className="text-green-400 font-bold text-xl">{item.stat}</div>
-                    <div className="text-muted-foreground text-[10px]">{item.statLabel}</div>
-                  </div>
-                </div>
-                <h3 className="text-base font-bold text-white mb-2 group-hover:text-green-400 transition-colors duration-300">
-                  {item.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 };
