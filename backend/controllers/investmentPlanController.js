@@ -10,6 +10,7 @@ const getAllPlans = async (req, res, next) => {
       data: plans.map((p) => ({
         _id: p._id,
         name: p.name,
+        description: p.description,
         bestFor: p.bestFor,
         features: p.features,
         horizon: p.horizon,
@@ -17,6 +18,10 @@ const getAllPlans = async (req, res, next) => {
         button: p.button,
         featured: p.featured,
         displayOrder: p.displayOrder,
+        fileName: p.fileName,
+        fileUrl: p.fileUrl,
+        fileType: p.fileType,
+        fileSize: p.fileSize,
       })),
     });
   } catch (error) {

@@ -24,6 +24,7 @@ const AdminAchievements = lazy(() => import('@/pages/admin/AdminAchievements'));
 const AdminCalendar = lazy(() => import('@/pages/admin/AdminCalendar'));
 const AdminFounder = lazy(() => import('@/pages/admin/AdminFounder'));
 const AdminInvestmentPlans = lazy(() => import('@/pages/admin/AdminInvestmentPlans'));
+const AdminPresentations = lazy(() => import('@/pages/admin/AdminPresentations'));
 
 const PageLoader = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
@@ -134,6 +135,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <AdminFounder />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/presentations"
+              element={
+                <ProtectedRoute>
+                  <AdminPresentations />
                 </ProtectedRoute>
               }
             />

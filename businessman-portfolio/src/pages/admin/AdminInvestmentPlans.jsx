@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -12,6 +12,9 @@ import {
   CheckCircle2,
   ArrowRight,
   DollarSign,
+  Upload,
+  Download,
+  FileText,
 } from 'lucide-react';
 import AdminLayout, { fadeInUp, Skeleton, Toast } from '@/components/admin/AdminLayout';
 import {
@@ -20,21 +23,33 @@ import {
   updatePlan,
   deletePlan,
   reorderPlans,
+  uploadPlanFile,
+  deletePlanFile,
 } from '@/config/admin';
 
 const emptyPlan = {
   name: '',
+  description: '',
   bestFor: '',
   features: [''],
   horizon: '',
   risk: '',
-  button: 'Schedule Consultation',
+  button: 'View Plan',
   featured: false,
   isActive: true,
 };
 
+const formatSize = (bytes) => {
+  if (!bytes) return '';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+};
+
 const AdminInvestmentPlans = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  const [uploadingId, setUploadingId] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -71,11 +86,12 @@ const AdminInvestmentPlans = () => {
   const openEdit = (plan) => {
     setForm({
       name: plan.name || '',
+      description: plan.description || '',
       bestFor: plan.bestFor || '',
       features: plan.features?.length ? [...plan.features] : [''],
       horizon: plan.horizon || '',
       risk: plan.risk || '',
-      button: plan.button || 'Schedule Consultation',
+      button: plan.button || 'View Plan',
       featured: plan.featured || false,
       isActive: plan.isActive !== false,
     });
@@ -205,6 +221,35 @@ const AdminInvestmentPlans = () => {
     }
   };
 
+  const handleFileUpload = async (id, file) => {
+    const token = localStorage.getItem('balraj_admin_token');
+    if (!token) return;
+    setUploadingId(id);
+    try {
+      const res = await uploadPlanFile(token, id, file);
+      showToast(res.message || 'File uploaded');
+      fetchData();
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setUploadingId(null);
+    }
+  };
+
+  const handleFileDelete = async (id) => {
+    const token = localStorage.getItem('balraj_admin_token');
+    if (!token) return;
+    try {
+      const res = await deletePlanFile(token, id);
+      showToast(res.message || 'File deleted');
+      fetchData();
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  const API_BASE = import.meta.env.VITE_API_URL || '';
+
   return (
     <AdminLayout
       title="Investment Plans"
@@ -275,6 +320,15 @@ const AdminInvestmentPlans = () => {
                       <span>Risk: {plan.risk}</span>
                       <span>{plan.features?.length || 0} features</span>
                     </div>
+
+                    {/* File info */}
+                    {plan.fileName && (
+                      <div className="flex items-center gap-2 mt-2 text-xs text-zinc-400">
+                        <FileText size={12} />
+                        <span>{plan.fileName}</span>
+                        {plan.fileSize > 0 && <span>({formatSize(plan.fileSize)})</span>}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-1 shrink-0">
@@ -305,6 +359,52 @@ const AdminInvestmentPlans = () => {
                       <Trash2 size={14} />
                     </button>
                   </div>
+                </div>
+
+                {/* File upload / download bar */}
+                <div className="mt-3 pt-3 border-t border-white/[0.04] flex items-center gap-3">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files[0]) {
+                        handleFileUpload(plan._id, e.target.files[0]);
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploadingId === plan._id}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-400 text-xs font-medium border border-green-500/20 hover:border-green-500/40 transition-all disabled:opacity-50"
+                  >
+                    {uploadingId === plan._id ? (
+                      <div className="w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Upload size={12} />
+                    )}
+                    {plan.fileUrl ? 'Replace File' : 'Upload File'}
+                  </button>
+                  {plan.fileUrl && (
+                    <>
+                      <a
+                        href={`${API_BASE}${plan.fileUrl}`}
+                        download={plan.fileName}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 text-xs font-medium border border-white/10 hover:border-white/20 transition-all"
+                      >
+                        <Download size={12} />
+                        Download
+                      </a>
+                      <button
+                        onClick={() => { if (window.confirm('Delete this file?')) handleFileDelete(plan._id); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium border border-red-500/20 hover:border-red-500/40 transition-all"
+                      >
+                        <Trash2 size={12} />
+                        Delete File
+                      </button>
+                    </>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -356,6 +456,16 @@ const AdminInvestmentPlans = () => {
                     className="w-full h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500/50"
                   />
                 </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-zinc-400 mb-1.5">Description</label>
+                  <textarea
+                    value={form.description}
+                    onChange={(e) => handleChange('description', e.target.value)}
+                    placeholder="A cryptocurrency investment plan designed for investors seeking long-term growth..."
+                    rows={2}
+                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500/50 resize-none"
+                  />
+                </div>
                 <div>
                   <label className="block text-xs font-medium text-zinc-400 mb-1.5">Investment Horizon</label>
                   <input
@@ -382,7 +492,7 @@ const AdminInvestmentPlans = () => {
                     type="text"
                     value={form.button}
                     onChange={(e) => handleChange('button', e.target.value)}
-                    placeholder="Schedule Consultation"
+                    placeholder="View Plan"
                     className="w-full h-10 rounded-lg border border-white/10 bg-white/5 px-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500/50"
                   />
                 </div>
@@ -470,6 +580,9 @@ const AdminInvestmentPlans = () => {
                     {form.name || 'Plan Name'}
                   </h4>
                   <p className="text-[10px] text-zinc-500 mb-3">Best For: {form.bestFor || '—'}</p>
+                  {form.description && (
+                    <p className="text-[10px] text-zinc-400 mb-3 leading-relaxed">{form.description}</p>
+                  )}
                   <div className="space-y-1.5 mb-3">
                     {form.features.filter((f) => f.trim()).map((f, fi) => (
                       <div key={fi} className="flex items-start gap-2">

@@ -409,6 +409,81 @@ export const reorderPlans = async (token, items) => {
   return result;
 };
 
+export const uploadPlanFile = async (token, id, file) => {
+  const formData = new FormData();
+  formData.append('planFile', file);
+  const response = await fetch(`${API_BASE_URL}/api/admin/plans/${id}/upload`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to upload file');
+  return result;
+};
+
+export const getAdminPresentations = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/presentations`, {
+    headers: authHeaders(token),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to load presentations');
+  return result;
+};
+
+export const createPresentation = async (token, formData) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/presentations`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to create presentation');
+  return result;
+};
+
+export const updatePresentation = async (token, id, formData) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/presentations/${id}`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to update presentation');
+  return result;
+};
+
+export const deletePresentation = async (token, id) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/presentations/${id}`, {
+    method: 'DELETE',
+    headers: authHeaders(token),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to delete presentation');
+  return result;
+};
+
+export const reorderPresentations = async (token, items) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/presentations/reorder`, {
+    method: 'PUT',
+    headers: authHeaders(token),
+    body: JSON.stringify({ items }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to reorder presentations');
+  return result;
+};
+
+export const deletePlanFile = async (token, id) => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/plans/${id}/file`, {
+    method: 'DELETE',
+    headers: authHeaders(token),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to delete file');
+  return result;
+};
+
 export const bulkSetAvailability = async (token, date, status) => {
   const response = await fetch(`${API_BASE_URL}/api/admin/availability/${date}/bulk`, {
     method: 'PUT',

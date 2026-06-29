@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, FileSearch, Monitor } from 'lucide-react';
+import { TrendingUp, FileSearch, Monitor, PiggyBank } from 'lucide-react';
 import ServiceItem from '@/components/ServiceItem';
+import { getPlans } from '@/config/admin';
+import { getPresentations } from '@/config/api';
 
 const services = [
   {
@@ -53,16 +55,49 @@ const services = [
   {
     icon: Monitor,
     title: 'Crypto Presentations',
-    hasUpload: true,
+    hasPresentations: true,
+  },
+  {
+    icon: PiggyBank,
+    title: 'Investment Plans',
+    hasPlans: true,
   },
 ];
 
 const ServiceAccordion = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [plans, setPlans] = useState([]);
+  const [plansLoading, setPlansLoading] = useState(false);
+  const [presentations, setPresentations] = useState([]);
+  const [presentationsLoading, setPresentationsLoading] = useState(false);
+
+  useEffect(() => {
+    getPlans()
+      .then((res) => setPlans(res.data || []))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    setPresentationsLoading(true);
+    getPresentations()
+      .then((res) => setPresentations(res.data || []))
+      .catch(() => {})
+      .finally(() => setPresentationsLoading(false));
+  }, []);
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const servicesWithData = services.map((service) => {
+    if (service.hasPlans) {
+      return { ...service, plans, plansLoading };
+    }
+    if (service.hasPresentations) {
+      return { ...service, presentations, presentationsLoading };
+    }
+    return service;
+  });
 
   return (
     <section className="relative section-padding pt-24 md:pt-28 lg:pt-32 overflow-hidden bg-black">
@@ -93,7 +128,7 @@ const ServiceAccordion = () => {
         </motion.div>
 
         <div className="max-w-3xl mx-auto space-y-4">
-          {services.map((service, i) => (
+          {servicesWithData.map((service, i) => (
             <motion.div
               key={service.title}
               initial={{ opacity: 0, y: 20 }}

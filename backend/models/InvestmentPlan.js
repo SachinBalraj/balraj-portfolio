@@ -7,6 +7,11 @@ const investmentPlanSchema = new mongoose.Schema(
       required: [true, 'Plan name is required'],
       trim: true,
     },
+    description: {
+      type: String,
+      default: '',
+      trim: true,
+    },
     bestFor: {
       type: String,
       default: '',
@@ -28,7 +33,7 @@ const investmentPlanSchema = new mongoose.Schema(
     },
     button: {
       type: String,
-      default: 'Schedule Consultation',
+      default: 'View Plan',
       trim: true,
     },
     featured: {
@@ -42,6 +47,26 @@ const investmentPlanSchema = new mongoose.Schema(
     displayOrder: {
       type: Number,
       default: 0,
+    },
+    fileName: {
+      type: String,
+      default: '',
+    },
+    fileUrl: {
+      type: String,
+      default: '',
+    },
+    fileType: {
+      type: String,
+      default: '',
+    },
+    fileSize: {
+      type: Number,
+      default: 0,
+    },
+    uploadedBy: {
+      type: String,
+      default: '',
     },
   },
   {

@@ -1,4 +1,6 @@
+const path = require('path');
 const InvestmentPlan = require('../models/InvestmentPlan');
+const { saveFileToDb, deleteFileFromDb } = require('../utils/uploadHelper');
 
 const getPlans = async (req, res, next) => {
   try {
@@ -11,7 +13,7 @@ const getPlans = async (req, res, next) => {
 
 const createPlan = async (req, res, next) => {
   try {
-    const { name, bestFor, features, horizon, risk, button, featured, isActive } = req.body;
+    const { name, description, bestFor, features, horizon, risk, button, featured, isActive } = req.body;
 
     if (!name || !name.trim()) {
       res.status(400);
@@ -23,11 +25,12 @@ const createPlan = async (req, res, next) => {
 
     const plan = await InvestmentPlan.create({
       name: name.trim(),
+      description: description || '',
       bestFor: bestFor || '',
       features: features || [],
       horizon: horizon || '',
       risk: risk || '',
-      button: button || 'Schedule Consultation',
+      button: button || 'View Plan',
       featured: featured !== undefined ? featured : false,
       isActive: isActive !== undefined ? isActive : true,
       displayOrder: nextOrder,
@@ -45,7 +48,7 @@ const createPlan = async (req, res, next) => {
 
 const updatePlan = async (req, res, next) => {
   try {
-    const { name, bestFor, features, horizon, risk, button, featured, isActive, displayOrder } = req.body;
+    const { name, description, bestFor, features, horizon, risk, button, featured, isActive, displayOrder } = req.body;
     const plan = await InvestmentPlan.findById(req.params.id);
 
     if (!plan) {
@@ -54,6 +57,7 @@ const updatePlan = async (req, res, next) => {
     }
 
     if (name !== undefined) plan.name = name.trim();
+    if (description !== undefined) plan.description = description;
     if (bestFor !== undefined) plan.bestFor = bestFor;
     if (features !== undefined) plan.features = features;
     if (horizon !== undefined) plan.horizon = horizon;
@@ -75,6 +79,77 @@ const updatePlan = async (req, res, next) => {
   }
 };
 
+const uploadPlanFile = async (req, res, next) => {
+  try {
+    const plan = await InvestmentPlan.findById(req.params.id);
+    if (!plan) {
+      res.status(404);
+      throw new Error('Plan not found');
+    }
+
+    if (!req.file) {
+      res.status(400);
+      throw new Error('No file uploaded');
+    }
+
+    if (plan.fileUrl) {
+      await deleteFileFromDb(plan.fileUrl);
+    }
+
+    const fileUrl = await saveFileToDb(req.file, 'investment-plans');
+
+    plan.fileName = req.file.originalname;
+    plan.fileUrl = fileUrl;
+    plan.fileType = req.file.mimetype;
+    plan.fileSize = req.file.size;
+    plan.uploadedBy = req.admin?.name || req.admin?.email || 'Admin';
+    await plan.save();
+
+    res.json({
+      success: true,
+      message: 'File uploaded successfully',
+      data: {
+        fileName: plan.fileName,
+        fileUrl: plan.fileUrl,
+        fileType: plan.fileType,
+        fileSize: plan.fileSize,
+        uploadedBy: plan.uploadedBy,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deletePlanFile = async (req, res, next) => {
+  try {
+    const plan = await InvestmentPlan.findById(req.params.id);
+    if (!plan) {
+      res.status(404);
+      throw new Error('Plan not found');
+    }
+
+    if (plan.fileUrl) {
+      await deleteFileFromDb(plan.fileUrl);
+    }
+
+    plan.fileName = '';
+    plan.fileUrl = '';
+    plan.fileType = '';
+    plan.fileSize = 0;
+    plan.uploadedBy = '';
+    await plan.save();
+
+    res.json({
+      success: true,
+      message: 'File deleted successfully',
+      data: plan,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deletePlan = async (req, res, next) => {
   try {
     const plan = await InvestmentPlan.findById(req.params.id);
@@ -82,6 +157,10 @@ const deletePlan = async (req, res, next) => {
     if (!plan) {
       res.status(404);
       throw new Error('Plan not found');
+    }
+
+    if (plan.fileUrl) {
+      await deleteFileFromDb(plan.fileUrl);
     }
 
     await plan.deleteOne();
@@ -125,4 +204,4 @@ const reorderPlans = async (req, res, next) => {
   }
 };
 
-module.exports = { getPlans, createPlan, updatePlan, deletePlan, reorderPlans };
+module.exports = { getPlans, createPlan, updatePlan, uploadPlanFile, deletePlanFile, deletePlan, reorderPlans };

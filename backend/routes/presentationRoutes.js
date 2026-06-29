@@ -1,8 +1,8 @@
 const express = require('express');
-const router = express.Router();
-const presentationUpload = require('../middleware/presentationUploadMiddleware');
-const { uploadPresentation } = require('../controllers/presentationController');
+const { getPresentations } = require('../controllers/presentationController');
 
-router.post('/upload', presentationUpload.single('presentation'), uploadPresentation);
+const router = express.Router();
+
+router.get('/', getPresentations);
 
 module.exports = router;

@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import ExchangeCard from '@/components/ExchangeCard';
 import PlatformCard from '@/components/PlatformCard';
-import PresentationUpload from '@/components/PresentationUpload';
+import PresentationCard from '@/components/PresentationCard';
+import InvestmentPlanCard from '@/components/InvestmentPlanCard';
 
 const ServiceItem = ({ service, isOpen, onToggle }) => {
-  const { icon: Icon, title, features, button, exchanges, platforms, hasUpload } = service;
+  const { icon: Icon, title, features, button, exchanges, platforms, hasPresentations, presentations, presentationsLoading, hasPlans, plans, plansLoading } = service;
 
   return (
     <div
@@ -69,8 +70,82 @@ const ServiceItem = ({ service, isOpen, onToggle }) => {
             <div className="px-5 sm:px-6 pb-6 sm:pb-8 pt-0">
               <div className="w-full h-px bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent mb-5" />
 
-              {hasUpload ? (
-                <PresentationUpload />
+              {hasPresentations ? (
+                <>
+                  <p className="text-zinc-300 text-sm mb-1 font-medium">
+                    Available Presentations
+                  </p>
+                  <p className="text-muted-foreground text-xs mb-5">
+                    Browse and download presentation materials.
+                  </p>
+                  {presentationsLoading ? (
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {[1, 2].map((i) => (
+                        <div key={i} className="rounded-2xl border border-white/[0.04] bg-white/[0.02] p-5 animate-pulse">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-xl bg-white/5" />
+                            <div className="flex-1">
+                              <div className="h-4 bg-white/5 rounded w-24 mb-1" />
+                              <div className="h-3 bg-white/5 rounded w-16" />
+                            </div>
+                            <div className="h-6 bg-white/5 rounded w-10" />
+                          </div>
+                          <div className="h-3 bg-white/5 rounded w-full mb-1" />
+                          <div className="h-3 bg-white/5 rounded w-3/4" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : presentations.length === 0 ? (
+                    <div className="text-center py-8 text-zinc-500 text-sm">
+                      No presentations are available at the moment.
+                    </div>
+                  ) : (
+                    <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                      {presentations.map((pres, i) => (
+                        <PresentationCard key={pres._id} presentation={pres} index={i} />
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : hasPlans ? (
+                <>
+                  <p className="text-zinc-300 text-sm mb-1 font-medium">
+                    Explore our exclusive investment plans designed for different investment goals.
+                  </p>
+                  <p className="text-muted-foreground text-xs mb-5">
+                    Choose the plan that aligns with your financial goals and investment horizon.
+                  </p>
+                  {plansLoading ? (
+                    <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="rounded-2xl border border-white/[0.04] bg-white/[0.02] p-5 animate-pulse">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-xl bg-white/5" />
+                            <div className="h-4 bg-white/5 rounded w-20" />
+                          </div>
+                          <div className="h-3 bg-white/5 rounded w-full mb-2" />
+                          <div className="h-3 bg-white/5 rounded w-3/4 mb-4" />
+                          <div className="space-y-1.5 mb-4">
+                            {[1, 2, 3].map((j) => (
+                              <div key={j} className="h-2.5 bg-white/5 rounded w-full" />
+                            ))}
+                          </div>
+                          <div className="h-8 bg-white/5 rounded-xl w-28" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : plans.length === 0 ? (
+                    <div className="text-center py-8 text-zinc-500 text-sm">
+                      No investment plans are currently available.
+                    </div>
+                  ) : (
+                    <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4 mb-6">
+                      {plans.map((plan, i) => (
+                        <InvestmentPlanCard key={plan._id} plan={plan} index={i} />
+                      ))}
+                    </div>
+                  )}
+                </>
               ) : platforms ? (
                 <>
                   <p className="text-zinc-300 text-sm mb-1 font-medium">

@@ -19,6 +19,7 @@ import {
   Settings,
   User,
   Briefcase,
+  FileText,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -41,6 +42,7 @@ const navItems = [
   { to: '/admin/homepage', icon: Home, label: 'Homepage' },
   { to: '/admin/founder', icon: User, label: 'Founder' },
   { to: '/admin/achievements', icon: Trophy, label: 'Achievements' },
+  { to: '/admin/presentations', icon: FileText, label: 'Presentations' },
   { to: '/admin/calendar', icon: Calendar, label: 'Calendar' },
   { to: '/admin/contacts', icon: MessageSquare, label: 'Contacts' },
   { to: '/admin/consultations', icon: CalendarCheck, label: 'Consultations' },

@@ -17,3 +17,10 @@ export const getFounder = async () => {
   if (!response.ok) throw new Error(result.message || 'Failed to load founder');
   return result;
 };
+
+export const getPresentations = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/presentations`);
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.message || 'Failed to load presentations');
+  return result;
+};

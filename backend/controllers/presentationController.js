@@ -1,28 +1,27 @@
-const path = require('path');
-const Upload = require('../models/Upload');
-const { saveFileToDb } = require('../utils/uploadHelper');
+const Presentation = require('../models/Presentation');
 
-const uploadPresentation = async (req, res, next) => {
+const getPresentations = async (req, res, next) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'No file uploaded' });
-    }
+    const presentations = await Presentation.find({ published: true })
+      .sort({ displayOrder: 1, createdAt: -1 });
 
-    const fileUrl = await saveFileToDb(req.file, 'presentations');
-
-    res.status(200).json({
+    res.json({
       success: true,
-      message: 'Presentation uploaded successfully',
-      data: {
-        url: fileUrl,
-        filename: req.file.originalname,
-        size: req.file.size,
-        mimetype: req.file.mimetype,
-      },
+      count: presentations.length,
+      data: presentations.map((p) => ({
+        _id: p._id,
+        title: p.title,
+        description: p.description,
+        fileName: p.fileName,
+        fileUrl: p.fileUrl,
+        fileType: p.fileType,
+        fileSize: p.fileSize,
+        createdAt: p.createdAt,
+      })),
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
-module.exports = { uploadPresentation };
+module.exports = { getPresentations };
