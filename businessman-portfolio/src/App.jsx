@@ -10,7 +10,6 @@ const Home = lazy(() => import('@/pages/Home'));
 const About = lazy(() => import('@/pages/About'));
 const Services = lazy(() => import('@/pages/Services'));
 const Achievements = lazy(() => import('@/pages/Achievements'));
-const Contact = lazy(() => import('@/pages/Contact'));
 const Consultation = lazy(() => import('@/pages/Consultation'));
 const AdminLogin = lazy(() => import('@/pages/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard'));
@@ -45,7 +44,6 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/achievements" element={<Achievements />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/consultation" element={<Consultation />} />
             </Route>
             <Route path="/admin-login" element={<AdminLogin />} />

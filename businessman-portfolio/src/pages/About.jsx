@@ -6,6 +6,7 @@ import {
   Plus,
   Minus,
 } from 'lucide-react';
+import ContactInfo from '@/components/ContactInfo';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -340,6 +341,7 @@ const About = () => {
         </div>
       </section>
 
+      <ContactInfo />
 
     </div>
   );

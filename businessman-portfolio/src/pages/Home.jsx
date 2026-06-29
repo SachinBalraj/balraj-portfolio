@@ -327,7 +327,7 @@ const Home = () => {
                 transition={{ delay: 0.5, duration: 0.6 }}
                 className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full"
               >
-                <Link to="/contact" className="w-full sm:w-auto">
+                <Link to="/consultation" className="w-full sm:w-auto">
                   <Button size="lg" className="gap-2 w-full sm:w-auto">
                     Let's Work Together
                     <ArrowRight size={18} />

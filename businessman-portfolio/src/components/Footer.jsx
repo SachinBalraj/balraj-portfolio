@@ -7,7 +7,6 @@ import {
   ArrowUp,
   ArrowRight,
   Play,
-  ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -21,7 +20,6 @@ const quickLinks = [
   { label: 'About', to: '/about' },
   { label: 'Services', to: '/services' },
   { label: 'Achievements', to: '/achievements' },
-  { label: 'Contact', to: '/contact' },
 ];
 
 const Footer = () => {
@@ -103,12 +101,7 @@ const Footer = () => {
                   <Play size={10} />
                 </Button>
               </Link>
-              <Link to="/contact">
-                <Button size="sm" variant="ghost" className="w-full gap-1 text-xs h-8">
-                  Contact Founder
-                  <ExternalLink size={10} />
-                </Button>
-              </Link>
+
             </div>
           </div>
         </div>
