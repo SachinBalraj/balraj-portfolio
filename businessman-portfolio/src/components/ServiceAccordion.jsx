@@ -7,15 +7,18 @@ const services = [
   {
     icon: TrendingUp,
     title: 'Crypto Buy & Sell',
-    features: [
-      'Cryptocurrency buying guidance',
-      'Selling strategies',
-      'Risk management',
-      'Market trend analysis',
-      'Best entry and exit timing',
-      'One-on-one consultation',
+    exchanges: [
+      {
+        name: 'KuCoin',
+        description: 'A global cryptocurrency exchange offering spot trading, futures trading, staking, and hundreds of digital assets.',
+        url: 'https://www.kucoin.com/',
+      },
+      {
+        name: 'KoinBX',
+        description: 'An Indian cryptocurrency exchange that supports secure INR deposits, crypto trading, and easy onboarding for Indian users.',
+        url: 'https://koinbx.com/',
+      },
     ],
-    button: 'Learn More',
   },
   {
     icon: FileSearch,
