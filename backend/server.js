@@ -33,6 +33,7 @@ const availabilityRoutes = require('./routes/availabilityRoutes');
 const adminAvailabilityRoutes = require('./routes/adminAvailabilityRoutes');
 const founderRoutes = require('./routes/founderRoutes');
 const adminFounderRoutes = require('./routes/adminFounderRoutes');
+const presentationRoutes = require('./routes/presentationRoutes');
 
 let server;
 
@@ -270,6 +271,7 @@ app.use('/api/availability', availabilityRoutes);
 app.use('/api/admin/availability', adminAvailabilityRoutes);
 app.use('/api/founder', founderRoutes);
 app.use('/api/admin/founder', adminFounderRoutes);
+app.use('/api/presentations', presentationRoutes);
 
 // NOTE: frontend `dist` serving is moved to the end of the file (after API routes)
 

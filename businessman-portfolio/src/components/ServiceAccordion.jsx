@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, FileSearch, Handshake, Monitor } from 'lucide-react';
+import { TrendingUp, FileSearch, Monitor } from 'lucide-react';
 import ServiceItem from '@/components/ServiceItem';
 
 const services = [
@@ -23,39 +23,37 @@ const services = [
   {
     icon: FileSearch,
     title: 'Crypto Details',
-    features: [
-      'Blockchain fundamentals',
-      'Coin analysis',
-      'Tokenomics',
-      'Project roadmap',
-      'Market capitalization',
-      'Future growth potential',
+    platforms: [
+      {
+        name: 'CoinMarketCap',
+        description: 'Track live cryptocurrency prices, market capitalization, rankings, trading volume, historical charts, circulating supply, and detailed information about thousands of crypto assets.',
+        features: [
+          'Live cryptocurrency prices',
+          'Market capitalization',
+          'Historical price charts',
+          'Trading volume',
+          'Coin rankings',
+        ],
+        url: 'https://coinmarketcap.com/',
+      },
+      {
+        name: 'CoinGecko',
+        description: 'Discover cryptocurrency prices, market trends, exchanges, NFTs, DeFi statistics, blockchain analytics, and detailed project information from one of the most widely used crypto data platforms.',
+        features: [
+          'Real-time crypto prices',
+          'Exchange information',
+          'NFT & DeFi tracking',
+          'Portfolio insights',
+          'Market analytics',
+        ],
+        url: 'https://www.coingecko.com/',
+      },
     ],
-    button: 'Learn More',
-  },
-  {
-    icon: Handshake,
-    title: 'Investment Consultation',
-    features: [
-      'Personalized investment strategy',
-      'Portfolio planning',
-      'Risk assessment',
-      'Long-term investment guidance',
-      'Diversification recommendations',
-    ],
-    button: 'Book Consultation',
   },
   {
     icon: Monitor,
     title: 'Crypto Presentations',
-    features: [
-      'Crypto awareness sessions',
-      'Blockchain presentations',
-      'Web3 workshops',
-      'Beldex ecosystem training',
-      'Corporate and college seminars',
-    ],
-    button: 'Learn More',
+    hasUpload: true,
   },
 ];
 

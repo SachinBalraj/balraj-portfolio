@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <div>
       {/* ===== HERO SECTION ===== */}
-      <section className="relative min-h-screen flex overflow-hidden">
+      <section className="relative flex overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95" />
         <div className="absolute inset-0">
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-green-500/10 rounded-full blur-[120px]" />
@@ -38,7 +38,7 @@ const Home = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-green-500/3 to-transparent rounded-full blur-[100px]" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20">
             {/* Mobile: Founder Photo at top */}
             <motion.div
@@ -47,8 +47,8 @@ const Home = () => {
               transition={{ duration: 0.6 }}
               className="lg:hidden flex justify-center"
             >
-              <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px]">
-                <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[40px] sm:blur-[60px]" />
+              <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px]">
+                <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[40px] sm:blur-[60px] md:blur-[80px]" />
                 <div className="relative w-full h-full rounded-full bg-gradient-to-br from-green-400/20 to-emerald-500/10 border-[3px] border-green-500/30 overflow-hidden shadow-[0_0_25px_-3px_rgba(34,197,94,0.3)] sm:shadow-[0_0_40px_-5px_rgba(34,197,94,0.3)]">
                   {founderLoading ? (
                     <div className="w-full h-full bg-white/[0.03] animate-pulse" />
@@ -139,9 +139,9 @@ const Home = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-              className="relative hidden lg:block"
+              className="relative hidden lg:block self-center"
             >
-              <div className="relative w-full aspect-[4/5]">
+              <div className="relative w-full max-w-[380px] lg:max-w-[420px] xl:max-w-[450px] mx-auto aspect-[4/5]">
                 <motion.div
                   className="absolute -top-2 right-0 z-20 glass rounded-xl p-3 pr-4 shadow-xl border border-green-500/20"
                   animate={{ y: [0, -8, 0] }}

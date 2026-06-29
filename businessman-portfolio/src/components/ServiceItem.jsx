@@ -3,9 +3,11 @@ import { ChevronDown, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import ExchangeCard from '@/components/ExchangeCard';
+import PlatformCard from '@/components/PlatformCard';
+import PresentationUpload from '@/components/PresentationUpload';
 
 const ServiceItem = ({ service, isOpen, onToggle }) => {
-  const { icon: Icon, title, features, button, exchanges } = service;
+  const { icon: Icon, title, features, button, exchanges, platforms, hasUpload } = service;
 
   return (
     <div
@@ -67,7 +69,23 @@ const ServiceItem = ({ service, isOpen, onToggle }) => {
             <div className="px-5 sm:px-6 pb-6 sm:pb-8 pt-0">
               <div className="w-full h-px bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent mb-5" />
 
-              {exchanges ? (
+              {hasUpload ? (
+                <PresentationUpload />
+              ) : platforms ? (
+                <>
+                  <p className="text-zinc-300 text-sm mb-1 font-medium">
+                    Explore Trusted Cryptocurrency Information Platforms
+                  </p>
+                  <p className="text-muted-foreground text-xs mb-5">
+                    Use these platforms to research cryptocurrency prices, market capitalization, trading volume, project information, historical charts, and market trends before making investment decisions.
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                    {platforms.map((platform, i) => (
+                      <PlatformCard key={platform.name} {...platform} index={i} />
+                    ))}
+                  </div>
+                </>
+              ) : exchanges ? (
                 <>
                   <p className="text-zinc-300 text-sm mb-1 font-medium">
                     Buy &amp; Sell Cryptocurrency on Trusted Exchanges
