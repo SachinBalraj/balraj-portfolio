@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Sparkles, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { getMarketDashboard, getPlans } from '@/config/admin';
-import ServicesCards from '@/components/ServicesCards';
+import ServiceAccordion from '@/components/ServiceAccordion';
 import {
   AreaChart,
   Area,
@@ -98,7 +98,7 @@ const Services = () => {
 
   return (
     <div>
-      <ServicesCards />
+      <ServiceAccordion />
 
       {/* Investment Strategy Plans */}
       <section className="relative section-padding overflow-hidden bg-black">
